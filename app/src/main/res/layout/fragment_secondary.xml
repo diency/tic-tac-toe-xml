@@ -6,29 +6,15 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/boardGrid"
+    <com.example.colormyviews.ui.custom.TicTacToeBoardView
+        android:id="@+id/ticTacToeBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:columnCount="3"
-        app:rowCount="3"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btn_go_back">
-
-        <Button android:id="@+id/cell0" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell1" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell2" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell3" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell4" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell5" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell6" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell7" style="@style/TicTacToeCell" />
-        <Button android:id="@+id/cell8" style="@style/TicTacToeCell" />
-
-    </androidx.gridlayout.widget.GridLayout>
+        app:layout_constraintBottom_toTopOf="@+id/btn_go_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btn_go_back"

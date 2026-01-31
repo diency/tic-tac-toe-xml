@@ -1,4 +1,4 @@
-package com.example.colormyviews.viewmodels
+package com.example.colormyviews.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.colormyviews.logic.TicTacToeEngine

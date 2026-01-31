@@ -1,4 +1,4 @@
-package com.example.colormyviews.fragments
+package com.example.colormyviews.ui.fragments
 
 import android.os.Bundle
 import android.view.View

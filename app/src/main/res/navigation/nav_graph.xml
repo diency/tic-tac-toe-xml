@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/firstFragment"
-        android:name="com.example.colormyviews.fragments.FirstFragment"
+        android:name="com.example.colormyviews.ui.fragments.FirstFragment"
         android:label="First Screen"
         tools:layout="@layout/fragment_secondary">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/secondaryFragment"
-        android:name="com.example.colormyviews.fragments.SecondFragment"
+        android:name="com.example.colormyviews.ui.fragments.SecondFragment"
         android:label="Screen 2"
         tools:layout="@layout/activity_main" />
 </navigation>

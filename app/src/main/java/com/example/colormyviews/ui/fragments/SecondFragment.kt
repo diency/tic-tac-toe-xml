@@ -1,10 +1,9 @@
-package com.example.colormyviews.fragments
+package com.example.colormyviews.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -14,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.colormyviews.R
 import com.example.colormyviews.databinding.FragmentSecondaryBinding
-import com.example.colormyviews.viewmodels.GameViewModel
+import com.example.colormyviews.ui.viewmodels.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,51 +36,38 @@ class SecondFragment : Fragment(R.layout.fragment_secondary) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentSecondaryBinding.bind(view)
 
-        // Now you access views directly via the binding object!
-        val buttons = listOf(
-            binding.cell0, binding.cell1, binding.cell2,
-            binding.cell3, binding.cell4, binding.cell5,
-            binding.cell6, binding.cell7, binding.cell8
-        )
-
-        buttons.forEachIndexed { index, button ->
-            button.setOnClickListener { viewModel.onCellClicked(index) }
+        binding.ticTacToeBoard.onCellClickListener = { index ->
+            viewModel.onCellClicked(index)
         }
 
-        binding.btnGoBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        // Observe game state
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.boardState.collect { board ->
-                    board.forEachIndexed { index, value ->
-                        buttons[index].text = value
+                //collect board state and pass to custom view
+                launch{
+                    viewModel.boardState.collect { board ->
+                        binding.ticTacToeBoard.updateBoard(board)
+                    }
+                }
+
+                launch {
+                    //collect winner state, and show toast
+                    viewModel.winner.collect { winner ->
+                        winner?.let {
+                            val message = if (it == "Draw") "It's a draw!" else "Player $it Wins!"
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
         }
 
-        //update on winner
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.winner.collect { winner ->
-                    if (winner != null) {
-                        val message = if (winner == "Draw") "It's a Draw!" else "Winner is $winner!"
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-
-                        // Optional: Change the "Back" button text to "Play Again?"
-                        //binding.btnGoBack.text = "Play Again?"
-                    }
-                }
-            }
-        }
+        binding.btnGoBack.setOnClickListener { findNavController().navigateUp() }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Critical to prevent memory leaks
+        _binding = null
     }
 }
